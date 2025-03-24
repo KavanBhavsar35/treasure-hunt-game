@@ -2,7 +2,6 @@ package main;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,7 +26,7 @@ public class UtilityTool {
 
     // GET X FOR CENTER
     public static final int getXForCenteredText(Graphics2D g2, String text) {
-        int x = GamePanel.screenWidth / 2 - UtilityTool.textLength(g2, text) / 2;
+        int x = GamePanel.SCREEN_WIDTH / 2 - UtilityTool.textLength(g2, text) / 2;
         return x;
     }
 

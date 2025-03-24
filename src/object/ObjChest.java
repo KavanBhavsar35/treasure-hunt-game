@@ -19,7 +19,7 @@ public class ObjChest extends Entity{
     }
     public ObjChest(int x, int y, GamePanel gamePanel) {
         this(gamePanel);
-        this.worldX = x * GamePanel.tileSize;
-        this.worldY = y * GamePanel.tileSize;
+        this.worldX = x * GamePanel.TILE_SIZE;
+        this.worldY = y * GamePanel.TILE_SIZE;
     }
 }

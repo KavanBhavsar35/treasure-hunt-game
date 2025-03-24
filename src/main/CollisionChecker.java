@@ -21,42 +21,38 @@ public class CollisionChecker {
         int entityBottomWorldY = entity.worldY + entity.solidArea.y + entity.solidArea.height;
 
         // GET ENTITY'S BLOCK COL AND ROW
-        int entityLeftCol = entityLeftWorldX / GamePanel.tileSize;
-        int entityRightCol = entityRightWorldX / GamePanel.tileSize;
-        int entityTopRow = entityTopWorldY / GamePanel.tileSize;
-        int entityBottomRow = entityBottomWorldY / GamePanel.tileSize;
+        int entityLeftCol = entityLeftWorldX / GamePanel.TILE_SIZE;
+        int entityRightCol = entityRightWorldX / GamePanel.TILE_SIZE;
+        int entityTopRow = entityTopWorldY / GamePanel.TILE_SIZE;
+        int entityBottomRow = entityBottomWorldY / GamePanel.TILE_SIZE;
 
         int tileNum1 = -1, tileNum2 = -1;
 
         // FIND POSSIBLE COLLIDING BLOCKS
         switch (entity.direction) {
-            case "up":
-                entityTopRow = (entityTopWorldY - entity.speed) / GamePanel.tileSize;
+            case "up" -> {
+                entityTopRow = (entityTopWorldY - entity.speed) / GamePanel.TILE_SIZE;
                 tileNum1 = gamePanel.tileManager.mapTileNumber[entityLeftCol][entityTopRow];
                 tileNum2 = gamePanel.tileManager.mapTileNumber[entityRightCol][entityTopRow];
+            }
 
-                break;
-
-            case "down":
-                entityBottomRow = (entityBottomWorldY + entity.speed) / GamePanel.tileSize;
+            case "down" -> {
+                entityBottomRow = (entityBottomWorldY + entity.speed) / GamePanel.TILE_SIZE;
                 tileNum1 = gamePanel.tileManager.mapTileNumber[entityLeftCol][entityBottomRow];
                 tileNum2 = gamePanel.tileManager.mapTileNumber[entityRightCol][entityBottomRow];
+            }
 
-                break;
-
-            case "left":
-                entityLeftCol = (entityLeftWorldX - entity.speed) / GamePanel.tileSize;
+            case "left" -> {
+                entityLeftCol = (entityLeftWorldX - entity.speed) / GamePanel.TILE_SIZE;
                 tileNum1 = gamePanel.tileManager.mapTileNumber[entityLeftCol][entityTopRow];
                 tileNum2 = gamePanel.tileManager.mapTileNumber[entityLeftCol][entityBottomRow];
+            }
 
-                break;
-
-            case "right":
-                entityRightCol = (entityRightWorldX + entity.speed) / GamePanel.tileSize;
+            case "right" -> {
+                entityRightCol = (entityRightWorldX + entity.speed) / GamePanel.TILE_SIZE;
                 tileNum1 = gamePanel.tileManager.mapTileNumber[entityRightCol][entityTopRow];
                 tileNum2 = gamePanel.tileManager.mapTileNumber[entityRightCol][entityBottomRow];
-
-                break;
+            }
         }
 
         // CHECK IF COLLIDING
@@ -84,18 +80,10 @@ public class CollisionChecker {
 
                 // PREDICT ENTITY'S MOVEMENT
                 switch (entity.direction) {
-                    case "up":
-                        entity.solidArea.y -= entity.speed;
-                        break;
-                    case "down":
-                        entity.solidArea.y += entity.speed;
-                        break;
-                    case "left":
-                        entity.solidArea.x -= entity.speed;
-                        break;
-                    case "right":
-                        entity.solidArea.x += entity.speed;
-                        break;
+                    case "up" -> entity.solidArea.y -= entity.speed;
+                    case "down" -> entity.solidArea.y += entity.speed;
+                    case "left" -> entity.solidArea.x -= entity.speed;
+                    case "right" -> entity.solidArea.x += entity.speed;
                 }
 
                 // CHECK IF BOTH COLLIDES
@@ -143,18 +131,10 @@ public class CollisionChecker {
 
                 // PREDICT ENTITY'S MOVEMENT
                 switch (entity.direction) {
-                    case "up":
-                        entity.solidArea.y -= entity.speed;
-                        break;
-                    case "down":
-                        entity.solidArea.y += entity.speed;
-                        break;
-                    case "left":
-                        entity.solidArea.x -= entity.speed;
-                        break;
-                    case "right":
-                        entity.solidArea.x += entity.speed;
-                        break;
+                    case "up" -> entity.solidArea.y -= entity.speed;
+                    case "down" -> entity.solidArea.y += entity.speed;
+                    case "left" -> entity.solidArea.x -= entity.speed;
+                    case "right" -> entity.solidArea.x += entity.speed;
                 }
 
                 // CHECK IF BOTH COLLIDES
@@ -195,18 +175,10 @@ public class CollisionChecker {
 
             // PREDICT ENTITY'S MOVEMENT
             switch (entity.direction) {
-                case "up":
-                    entity.solidArea.y -= entity.speed;
-                    break;
-                case "down":
-                    entity.solidArea.y += entity.speed;
-                    break;
-                case "left":
-                    entity.solidArea.x -= entity.speed;
-                    break;
-                case "right":
-                    entity.solidArea.x += entity.speed;
-                    break;
+                case "up" -> entity.solidArea.y -= entity.speed;
+                case "down" -> entity.solidArea.y += entity.speed;
+                case "left" -> entity.solidArea.x -= entity.speed;
+                case "right" -> entity.solidArea.x += entity.speed;
             }
 
             // CHECK IF BOTH COLLIDES

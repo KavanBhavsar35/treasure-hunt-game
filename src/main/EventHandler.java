@@ -11,10 +11,10 @@ public class EventHandler {
     public EventHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
 
-        eventRect = new EventRect[GamePanel.maxWorldCol][GamePanel.maxWorldRow];
+        eventRect = new EventRect[GamePanel.MAX_WORLD_COL][GamePanel.MAX_WORLD_ROW];
         int row = 0;
         int col = 0;
-        while (col < GamePanel.maxWorldCol && row < GamePanel.maxWorldRow) {
+        while (col < GamePanel.MAX_WORLD_COL && row < GamePanel.MAX_WORLD_ROW) {
             
             
             eventRect[col][row] = new EventRect();
@@ -26,7 +26,7 @@ public class EventHandler {
             eventRect[col][row].eventRectDefaultY = eventRect[col][row].y;
 
             col++;
-            if (col == GamePanel.maxWorldCol) {
+            if (col == GamePanel.MAX_WORLD_COL) {
                 col = 0;
                 row++;
             }
@@ -39,24 +39,24 @@ public class EventHandler {
         int xDistance = Math.abs(gamePanel.player.worldX - previousEventX);
         int yDistance = Math.abs(gamePanel.player.worldY - previousEventY);
         int distance = Math.max(xDistance, yDistance);
-        if (distance > GamePanel.tileSize) {
+        if (distance > GamePanel.TILE_SIZE) {
             canEventOccur = true;
         }
 
         if (canEventOccur) {
             
-            if (hit(27,16,"right")) damagePit(27, 16, gamePanel.dialougeState);
-            if (hit(23,19,"any")) damagePit(23, 19, gamePanel.dialougeState);
-            if (hit(23,12,"up")) healingPool(gamePanel.dialougeState);
+            if (hit(27,16,"right")) damagePit(27, 16, GamePanel.DIALOUGE_STATE);
+            if (hit(23,19,"any")) damagePit(23, 19, GamePanel.DIALOUGE_STATE);
+            if (hit(23,12,"up")) healingPool(GamePanel.DIALOUGE_STATE);
         }
     }
 
     private void damagePit(int col, int row, int gameState) {
         
         gamePanel.gameState = gameState;
-        gamePanel.ui.currentDialouge = "You fall into a pit !";
+        gamePanel.gameUi.currentDialouge = "You fall into a pit !";
         gamePanel.player.life -= 1;
-        // eventRect[col][row].eventDone = true;
+        eventRect[col][row].eventDone = true;
         canEventOccur = false;
     }
 
@@ -66,8 +66,8 @@ public class EventHandler {
 
         gamePanel.player.solidArea.x += gamePanel.player.worldX; 
         gamePanel.player.solidArea.y += gamePanel.player.worldY; 
-        eventRect[col][row].x += (col * GamePanel.tileSize);
-        eventRect[col][row].y += (row * GamePanel.tileSize);
+        eventRect[col][row].x += (col * GamePanel.TILE_SIZE);
+        eventRect[col][row].y += (row * GamePanel.TILE_SIZE);
 
         if (gamePanel.player.solidArea.intersects(eventRect[col][row]) && !eventRect[col][row].eventDone) {
             if (gamePanel.player.direction.contentEquals(reqDirection) || reqDirection.contentEquals("any")) {
@@ -92,7 +92,7 @@ public class EventHandler {
         
         if (gamePanel.keyHandler.enterPressed) {
             gamePanel.gameState = gameState;
-            gamePanel.ui.currentDialouge = "You drink the water \nYour life has been recovered";
+            gamePanel.gameUi.currentDialouge = "You drink the water \nYour life has been recovered";
             gamePanel.player.life = gamePanel.player.maxLife;
         }
     }

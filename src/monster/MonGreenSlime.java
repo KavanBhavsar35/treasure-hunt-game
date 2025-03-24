@@ -1,16 +1,15 @@
 package monster;
 
-import java.util.Random;
-
 import entity.Entity;
+import java.util.Random;
 import main.GamePanel;
 
-public class MonGreenSlime extends Entity{
+public final class MonGreenSlime extends Entity{
 
     public MonGreenSlime(GamePanel gamePanel, int x, int y) {
         this(gamePanel);
-        this.worldX = x * GamePanel.tileSize;
-        this.worldY = y * GamePanel.tileSize;
+        this.worldX = x * GamePanel.TILE_SIZE;
+        this.worldY = y * GamePanel.TILE_SIZE;
     }
 
     public MonGreenSlime(GamePanel gamePanel) {
@@ -43,6 +42,7 @@ public class MonGreenSlime extends Entity{
         right2 = setup("/monster/greenslime_down_2.png");
     }
     
+    @Override
     public void setAction() {
 
         actionLockCounter++;

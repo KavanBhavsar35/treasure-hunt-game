@@ -1,14 +1,13 @@
 package entity;
 
-import main.KeyHandler;
-
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import main.GamePanel;
+import main.KeyHandler;
 
-public class Player extends Entity {
+public final class Player extends Entity {
     
     // INITATION FOR INSTANCES
     KeyHandler keyHandler;
@@ -26,8 +25,8 @@ public class Player extends Entity {
         this.keyHandler = keyHandler;
 
         // PLAYER CENTER POSITION
-        screenX = GamePanel.screenWidth / 2 - (GamePanel.tileSize / 2);
-        screenY = GamePanel.screenHeight / 2 - (GamePanel.tileSize / 2);
+        screenX = GamePanel.SCREEN_WIDTH / 2 - (GamePanel.TILE_SIZE / 2);
+        screenY = GamePanel.SCREEN_HEIGHT / 2 - (GamePanel.TILE_SIZE / 2);
 
         // COLLIDABLE AREA FOR PLAYER
         solidArea = new Rectangle();
@@ -45,8 +44,8 @@ public class Player extends Entity {
 
     // DEFAULT VALS
     public void setDefaultValue() {
-        worldX = GamePanel.tileSize * 23;
-        worldY = GamePanel.tileSize * 21;
+        worldX = GamePanel.TILE_SIZE * 23;
+        worldY = GamePanel.TILE_SIZE * 21;
         speed = 4;
         direction = "down";
 
@@ -69,10 +68,11 @@ public class Player extends Entity {
     }
 
     // UPDATE PLAYER IF CHANGED
+    @Override
     public void update() {
     	
         if (gamePanel.player.life == 0) {
-            gamePanel.gameState = gamePanel.titleState;
+            gamePanel.gameState = GamePanel.TITLE_STATE;
         }
     	if (keyHandler.upPressed == true || keyHandler.downPressed == true || 
     			keyHandler.leftPressed == true || keyHandler.rightPressed == true) {
@@ -106,10 +106,10 @@ public class Player extends Entity {
             // MOVE IF COLLISION IS OFF
             if (collisionOn == false) {
                 switch (direction) {
-                    case "up": worldY -= speed; break;
-                    case "down": worldY += speed; break;
-                    case "left": worldX -= speed; break;
-                    case "right": worldX += speed; break;
+                    case "up" -> worldY -= speed;
+                    case "down" -> worldY += speed;
+                    case "left" -> worldX -= speed;
+                    case "right" -> worldX += speed;
                 }
             }
 
@@ -122,7 +122,6 @@ public class Player extends Entity {
 	        }
     	} else {
             standCounter++;
-            System.out.println(standCounter);
             if (standCounter == 20) {
                 spriteNum = 1;
                 standCounter = 0;
@@ -153,38 +152,39 @@ public class Player extends Entity {
         if (objIndex != 999) {
             String objName = gamePanel.obj[objIndex].name;
             switch (objName) {
-                case "Key":
-                    gamePanel.ui.showMessage("You got a Key !");
+                case "Key" -> {
+                    gamePanel.gameUi.showMessage("You got a Key !");
                     gamePanel.playSoundEffect(1);
                     gamePanel.obj[objIndex] = null;
                     hasKeys++;
-                    break;
-                case "Door":
-                if (hasKeys > 0) {
+                }
+                case "Door" -> {
+                    if (hasKeys > 0) {
                         gamePanel.playSoundEffect(3);
-                        gamePanel.ui.showMessage("You opened a door !");
+                        gamePanel.gameUi.showMessage("You opened a door !");
                         gamePanel.obj[objIndex] = null;
                         hasKeys--;
                     } else {
-                        gamePanel.ui.showMessage("You dont have a Key !");
+                        gamePanel.gameUi.showMessage("You dont have a Key !");
                     }
-                    break;
-                case "Boots":
-                    gamePanel.ui.showMessage("Speed up !");
+                }
+                case "Boots" -> {
+                    gamePanel.gameUi.showMessage("Speed up !");
                     gamePanel.playSoundEffect(2);
                     gamePanel.obj[objIndex] = null;
                     speed += 1;
-                    break;
-                case "Chest":
-                    gamePanel.ui.showMessage("You dont have a Key !");
+                }
+                case "Chest" -> {
+                    gamePanel.gameUi.showMessage("You dont have a Key !");
                     gamePanel.stopMusic();
                     gamePanel.playSoundEffect(4);
-                    gamePanel.ui.gameFinished =  true;
-                    break;
-                case "Potion":
-                    gamePanel.ui.showMessage("You got health!");
+                    gamePanel.gameUi.gameFinished =  true;
+                }
+                case "Potion" -> {
+                    gamePanel.gameUi.showMessage("You got health!");
                     gamePanel.obj[objIndex] = null;
                     gamePanel.player.life = 6;
+                }
 
             }
         }
@@ -195,32 +195,33 @@ public class Player extends Entity {
         if (i != 999) {
             if (keyHandler.enterPressed) {
                     
-                gamePanel.gameState = gamePanel.dialougeState;
+                gamePanel.gameState = gamePanel.DIALOUGE_STATE;
                 gamePanel.npc[i].speak();
             }
         }
     }
 
     // RENDER PLAYER
+    @Override
     public void draw(Graphics2D g2) {
-        BufferedImage image = null;
+        BufferedImage playerImage = null;
         switch (direction) {
-            case "up":
-                if (spriteNum == 1) image = up1;
-                if (spriteNum == 2) image = up2;
-                break;
-            case "down":
-                if (spriteNum == 1) image = down1;
-                if (spriteNum == 2) image = down2;
-                break;
-            case "left":
-                if (spriteNum == 1) image = left1;
-                if (spriteNum == 2) image = left2;
-                break;
-            case "right":
-                if (spriteNum == 1) { image = right1; }
-                if (spriteNum == 2) { image = right2; }
-                break;
+            case "up" -> {
+                if (spriteNum == 1) playerImage = up1;
+                if (spriteNum == 2) playerImage = up2;
+            }
+            case "down" -> {
+                if (spriteNum == 1) playerImage = down1;
+                if (spriteNum == 2) playerImage = down2;
+            }
+            case "left" -> {
+                if (spriteNum == 1) playerImage = left1;
+                if (spriteNum == 2) playerImage = left2;
+            }
+            case "right" -> {
+                if (spriteNum == 1) { playerImage = right1; }
+                if (spriteNum == 2) { playerImage = right2; }
+            }
         }
 
         float alpha = 1f;
@@ -233,7 +234,7 @@ public class Player extends Entity {
             alpha =  0.3f;
         }
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha)); 
-        g2.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
+        g2.drawImage(playerImage, screenX, screenY, GamePanel.TILE_SIZE, GamePanel.TILE_SIZE, null);
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
     }
 }

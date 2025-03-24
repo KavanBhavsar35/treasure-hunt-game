@@ -1,15 +1,14 @@
 package entity;
 
 import java.util.Random;
-
 import main.GamePanel;
 
-public class NpcOldMan extends Entity{
+public final class NpcOldMan extends Entity{
     
     public NpcOldMan(GamePanel gamePanel, int x, int y) {
         this(gamePanel);
-        this.worldX = x * GamePanel.tileSize;
-        this.worldY = y * GamePanel.tileSize;
+        this.worldX = x * GamePanel.TILE_SIZE;
+        this.worldY = y * GamePanel.TILE_SIZE;
     }
 
     public NpcOldMan(GamePanel gamePanel) {
@@ -51,6 +50,7 @@ public class NpcOldMan extends Entity{
     }
 
     //
+    @Override
     public void setAction() {
 
         actionLockCounter++;
@@ -68,6 +68,7 @@ public class NpcOldMan extends Entity{
         }
     }
 
+    @Override
     public void speak() {
         super.speak();
     }

@@ -26,51 +26,53 @@ public class KeyHandler  implements KeyListener{
         int code =  e.getKeyCode();
 
         // GAME STATE
-        if (gamePanel.gameState == gamePanel.titleState) {
-               
-            if (code == KeyEvent.VK_W) {
-                if (gamePanel.ui.commandNum == 0) gamePanel.ui.commandNum = 2; 
-                else gamePanel.ui.commandNum--;
-            }
-            if (code == KeyEvent.VK_S) {
-                if (gamePanel.ui.commandNum == 2) gamePanel.ui.commandNum = 0; 
-                else gamePanel.ui.commandNum++; 
-            }      
-            if (code == KeyEvent.VK_ENTER) {
-                if (gamePanel.ui.commandNum == 0) {
-                    gamePanel.gameState = gamePanel.playState;
-                    gamePanel.playMusic(0);
-                } else if (gamePanel.ui.commandNum == 1) {
-                    // add later
-                } else if (gamePanel.ui.commandNum == 2) {
-                    System.exit(0);
+        switch (gamePanel.gameState) {
+            case GamePanel.TITLE_STATE -> {
+                if (code == KeyEvent.VK_W) {
+                    if (gamePanel.gameUi.commandNum == 0) gamePanel.gameUi.commandNum = 2;
+                    else gamePanel.gameUi.commandNum--;
+                }   if (code == KeyEvent.VK_S) {
+                    if (gamePanel.gameUi.commandNum == 2) gamePanel.gameUi.commandNum = 0;
+                    else gamePanel.gameUi.commandNum++;
+                }   if (code == KeyEvent.VK_ENTER) {
+                    switch (gamePanel.gameUi.commandNum) {
+                        case 0:
+                            gamePanel.gameState = GamePanel.PLAY_STATE;
+                            gamePanel.playMusic(0);
+                            break;
+                            // add later
+                        case 1:
+                            break;
+                        case 2:
+                            System.exit(0);
+                        default:
+                            break;
+                    }
                 }
             }
-
-
-        } else if (gamePanel.gameState == gamePanel.playState) {
-               
-            if (code == KeyEvent.VK_W) upPressed = true;
-            if (code == KeyEvent.VK_S) downPressed = true;
-            if (code == KeyEvent.VK_A) leftPressed = true;
-            if (code == KeyEvent.VK_D) rightPressed = true;
-            if (code == KeyEvent.VK_P) gamePanel.gameState = gamePanel.pauseState;
-            if (code == KeyEvent.VK_ENTER) enterPressed = true;
-            
-            if (code == KeyEvent.VK_T) {
-                if (checkDrawTime) {
-                    checkDrawTime = false;
-                } else {
-                    checkDrawTime = true;
+            case GamePanel.PLAY_STATE -> {
+                if (code == KeyEvent.VK_W) upPressed = true;
+                if (code == KeyEvent.VK_S) downPressed = true;
+                if (code == KeyEvent.VK_A) leftPressed = true;
+                if (code == KeyEvent.VK_D) rightPressed = true;
+                if (code == KeyEvent.VK_P) gamePanel.gameState = GamePanel.PAUSE_STATE;
+                if (code == KeyEvent.VK_ENTER) enterPressed = true;
+                if (code == KeyEvent.VK_T) {
+                    checkDrawTime = !checkDrawTime;
                 }
             }
-        } else if (gamePanel.gameState ==gamePanel.pauseState) { // PAUSE STATE
-
-            if (code == KeyEvent.VK_P) gamePanel.gameState = gamePanel.playState;      
-        } else if (gamePanel.gameState ==gamePanel.dialougeState) { // DIALOUGE STATE
-            
-            if (code == KeyEvent.VK_ENTER) gamePanel.gameState = gamePanel.playState;      
-
+            case GamePanel.PAUSE_STATE -> {
+                // PAUSE STATE
+                
+                if (code == KeyEvent.VK_P) gamePanel.gameState = GamePanel.PLAY_STATE;
+            }
+            case GamePanel.DIALOUGE_STATE -> {
+                // DIALOUGE STATE
+                
+                if (code == KeyEvent.VK_ENTER) gamePanel.gameState = GamePanel.PLAY_STATE;
+            }
+            default -> {
+            }
         }
     }
 
